@@ -1,0 +1,123 @@
+#==============================================
+#
+# Makefile create by ÑÞÑôÂúÌì
+# Module : GNaviGPI
+#
+#==============================================
+
+#----------------------------------------------
+# Target File Name And Type Definitions
+#----------------------------------------------
+EXETYPE 	= a
+TARGET		= MYCLASS
+PROJ_DIR 	= MYCLASS
+
+#----------------------------------------------
+# Compile Executable File
+#----------------------------------------------
+CC 			=  /Applications/Xcode.app/Contents/Developer/usr/bin/gcc
+CPP 			= /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/g++-4.2
+AR  			= /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/ar
+
+#----------------------------------------------
+# Command For Delete File
+#----------------------------------------------
+DEL_CMD 	= rm -rf
+
+#----------------------------------------------
+# Command For Create Directory
+#----------------------------------------------
+DIR_CMD 	= mkdir -p
+
+#----------------------------------------------
+# Generic Flags For Compile
+#----------------------------------------------
+CC_CMD  	= -arch armv7 -c -std=c99 -W -Wall -O3 \
+        		-funroll-loops \
+        		-Diphoneos_version_min=2.0 \
+        		-Wno-unused-parameter \
+        		-Wno-sign-compare \
+
+#----------------------------------------------
+# Command Line Option To Specify Output Filename
+#----------------------------------------------    		
+OUT_CMD 	= -o
+
+#----------------------------------------------
+# Extension For Object File
+#---------------------------------------------- 
+EXT 			= o
+
+## SDK°æ±¾
+SDKVER    = 8.3
+
+## iPhone SDKÂ·¾¶
+IPHONESDK = /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS$(SDKVER).sdk
+
+CC_CMD += -F"$(IPHONESDK)/System/Library/Frameworks"
+CC_CMD += -F"$(IPHONESDK)/System/Library/PrivateFrameworks"
+
+#----------------------------------------------
+# Output Directory
+#----------------------------------------------
+
+INTDIR = ./obj/iphone/$(SDKVER)
+OUTDIR = ./Lib/iphone/$(SDKVER)
+
+#----------------------------------------------
+# MACRO
+#----------------------------------------------
+APP_DEF = -DPLATFORM_MAC \
+					$(DEBUG) \
+					$(FILEOP)
+
+#----------------------------------------------
+# Include Directory
+#----------------------------------------------
+APP_INC = -I"$(IPHONESDK)/usr/include" \
+					-I"/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/gcc/arm-apple-darwin9/4.2/include/" \
+					-I"/Developer/Platforms/iPhoneOS.platform/Developer/usr/include/" \
+					-I"/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator$(SDKVER).sdk/usr/include" \
+					-I$(PROJ_DIR)/Include
+
+#----------------------------------------------
+# Compile Flags and AR or Link Flags
+#----------------------------------------------
+CCFLAGS = $(CC_CMD) $(APP_DEF) $(APP_INC)
+ARFLAGS = -r $(OUTDIR)/$(TARGET).$(EXETYPE)
+
+#----------------------------------------------
+# DO NOT EDIT BELOW THIS LINE
+#----------------------------------------------
+
+include $(PROJ_DIR)/makefile-in
+
+OBJS =  $(myclass1)
+				
+ALL: DIR CLEAN  $(TARGET)
+
+DIR:
+	$(DIR_CMD) "$(OUTDIR)"
+	$(DIR_CMD) "$(INTDIR)"
+
+CLEAN:
+	@echo -------------------------------------------
+	@echo CLEAN
+	$(DEL_CMD) $(INTDIR)/*.$(EXT)
+	$(DEL_CMD) $(OUTDIR)/$(TARGET).$(EXETYPE)
+
+	@echo -------------------------------------------
+
+$(TARGET) : $(OBJS)
+	@echo -------------------------------------------
+	@echo $(OBJS)
+	@echo -------------------------------------------
+	$(AR) $(ARFLAGS) $(OBJS)
+
+REBUILD: CLEAN ALL
+
+
+
+	
+
+######## End Of Makefile

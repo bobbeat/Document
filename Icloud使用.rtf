@@ -1,0 +1,365 @@
+{\rtf1\ansi\ansicpg936\cocoartf1138\cocoasubrtf470
+{\fonttbl\f0\fnil\fcharset0 LucidaGrande;\f1\fmodern\fcharset0 Courier;}
+{\colortbl;\red255\green255\blue255;\red39\green80\blue197;\red83\green83\blue83;\red238\green242\blue248;
+\red188\green196\blue204;\red46\green59\blue90;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh7200\viewkind0
+\deftab720
+\pard\pardeftab720\sa200
+
+\f0\fs26 \cf0 Early in your app launch process\'97in the {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/Reference/Reference.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:didFinishLaunchingWithOptions:"}}{\fldrslt 
+\f1 \cf2 application:didFinishLaunchingWithOptions:}} method (iOS) or 
+\f1 \cf3 applicationDidFinishLaunching:
+\f0 \cf0  method (OS X), check for iCloud availability by calling the {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/Classes/NSFileManager_Class/Reference/Reference.html#//apple_ref/occ/cl/NSFileManager"}}{\fldrslt 
+\f1 \cf2 NSFileManager}} method {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/Classes/NSFileManager_Class/Reference/Reference.html#//apple_ref/occ/instm/NSFileManager/ubiquityIdentityToken"}}{\fldrslt 
+\f1 \cf2 ubiquityIdentityToken}}, as follows:\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrt\brdrs\brdrw20\brdrcf5 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrb\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720
+
+\f1\fs24 \cf3 id currentiCloudToken = [[NSFileManager defaultManager] ubiquityIdentityToken];\
+\
+\cell \lastrow\row
+\pard\pardeftab720\sa200
+
+\f0\fs26 \cf0 Call this lightweight, synchronous method from your app\'92s main thread. The return value is a unique token representing the user\'92s currently active iCloud account. You can compare tokens to detect if the current account is different from the previously-used one, as explained in the next section. To enable comparisons, archive the newly-acquired token in the \cf2 user defaults\cf0  database using code like this:\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrt\brdrs\brdrw20\brdrcf5 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720
+
+\f1\fs24 \cf3  if (currentiCloudToken) \{\
+\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720
+\cf3     NSData *newTokenData =\
+\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720
+\cf3             [NSKeyedArchiver archivedDataWithRootObject: currentiCloudToken];\
+\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720
+\cf3     [[NSUserDefaults standardUserDefaults]\
+\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720
+\cf3             setObject: newTokenData\
+\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720
+\cf3                forKey: @"com.apple.MyAppName.UbiquityIdentityToken"];\
+\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720
+\cf3 \} else \{\
+\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720
+\cf3     [[NSUserDefaults standardUserDefaults]\
+\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720
+\cf3             removeObjectForKey: @"com.apple.MyAppName.UbiquityIdentityToken"];\
+\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrb\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720
+\cf3 \}\
+\
+\pard\intbl\itap1\pardeftab720\sa200
+
+\f0\fs26 \cf0 Next, if iCloud is available, and if this is the user\'92s first launch of your app, display an alert asking if they want to use iCloud. You can use code like this:\
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrt\brdrs\brdrw20\brdrcf5 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+
+\f1\fs24 \cf3 if (currentiCloudToken && firstLaunchWithiCloudAvailable) \{\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3     UIAlertView *alert = [[UIAlertView alloc]\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3                             initWithTitle: @"Choose Storage Option"\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3                                   message: @"Should documents be stored in iCloud and\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3                                                 available on all your devices?"\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3                                  delegate: self\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3                         cancelButtonTitle: @"Local Only"\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3                         otherButtonTitles: @"iCloud", nil];\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3     [alert show];\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrb\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3 \}\
+\nestcell \lastrow\nestrow
+\pard\intbl\itap1\pardeftab720\sa200
+
+\f0\fs26 \cf0 Then, store the user\'92s choice in the user defaults database, from within a call to the {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIAlertViewDelegate_Protocol/UIAlertViewDelegate/UIAlertViewDelegate.html#//apple_ref/occ/intfm/UIAlertViewDelegate/alertView:didDismissWithButtonIndex:"}}{\fldrslt 
+\f1 \cf2 alertView:didDismissWithButtonIndex:}} method. Doing this lets you read from user defaults, prior to the preceding alert view code snippet, to determine the value for the 
+\f1 \cf3 firstLaunchWithiCloudAvailable
+\f0 \cf0  Boolean variable.\
+Another important step in your app launch code is to register for notifications about changes in iCloud availability, as explained in the next section.\
+\
+To detect when the user logs out of iCloud, or switches accounts, your app needs to register for changes in iCloud account availability. In your app\'92s launch sequence, add an app object as an observer of the {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/Classes/NSFileManager_Class/Reference/Reference.html#//apple_ref/c/data/NSUbiquityIdentityDidChangeNotification"}}{\fldrslt 
+\f1 \cf2 NSUbiquityIdentityDidChangeNotification}} notification, using code such as this:\
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrt\brdrs\brdrw20\brdrcf5 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+
+\f1\fs24 \cf3 [[NSNotificationCenter defaultCenter]\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3     addObserver: self\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3        selector: @selector (iCloudAccountAvailabilityChanged:)\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3            name: NSUbiquityIdentityDidChangeNotification\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrb\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3          object: nil];\nestcell \lastrow\nestrow
+\pard\intbl\itap1\pardeftab720\sa200
+\cf3 \
+
+\f0\fs26 \cf0 Always call the 
+\f1 \cf3 URLForUbiquityContainerIdentifier:
+\f0 \cf0  method from a background thread\'97not from your app\'92s main thread. For example, you can use code such as this:\
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrt\brdrs\brdrw20\brdrcf5 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+
+\f1\fs24 \cf3 dispatch_async (dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^\{\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3     if ([[NSFileManager defaultManager]\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3             URLForUbiquityContainerIdentifier: nil] != nil) \{\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3         NSLog (@"iCloud is available");\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3     \}\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrb\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3 \});\nestcell \lastrow\nestrow
+\pard\intbl\itap1\pardeftab720\sa200
+
+\f0\fs26 \cf0 As you do with an {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/Classes/NSUserDefaults_Class/Reference/Reference.html#//apple_ref/occ/cl/NSUserDefaults"}}{\fldrslt 
+\f1 \cf2 NSUserDefaults}} object, use the iCloud key-value store to save and retrieve scalar values (such as 
+\f1 \cf3 BOOL
+\f0 \cf0 ) and property-list object types: 
+\f1 \cf3 NSNumber
+\f0 \cf0 , 
+\f1 \cf3 NSString
+\f0 \cf0 , 
+\f1 \cf3 NSDate
+\f0 \cf0 , 
+\f1 \cf3 NSData
+\f0 \cf0 , 
+\f1 \cf3 NSArray
+\f0 \cf0 , and 
+\f1 \cf3 NSDictionary
+\f0 \cf0 . Array and dictionary values can hold any of these value types.\
+The {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/prerelease/ios/documentation/Foundation/Reference/NSUbiquitousKeyValueStore_class/Reference/Reference.html#//apple_ref/occ/cl/NSUbiquitousKeyValueStore"}}{\fldrslt 
+\f1 \cf2 NSUbiquitousKeyValueStore}} class provides methods for reading and writing each of these types, as described in {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/prerelease/ios/documentation/Foundation/Reference/NSUbiquitousKeyValueStore_class/Reference/Reference.html#//apple_ref/doc/uid/TP40010934"}}{\fldrslt \cf2 NSUbiquitousKeyValueStore Class Reference}}.\
+Each time you write key-value data, the operation succeeds or fails atomically; either all of the data is written or none of it is. You can take advantage of this behavior when your app needs to ensure that a set of values is saved together to ensure validity: place the mutually-dependent values within a dictionary and call the {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/prerelease/ios/documentation/Foundation/Reference/NSUbiquitousKeyValueStore_class/Reference/Reference.html#//apple_ref/occ/instm/NSUbiquitousKeyValueStore/setDictionary:forKey:"}}{\fldrslt 
+\f1 \cf2 setDictionary:forKey:}} method.\
+Any device running your app, and attached to a user\'92s iCloud account, can upload key-value changes to that account. To keep track of such changes, register for the {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/prerelease/ios/documentation/Foundation/Reference/NSUbiquitousKeyValueStore_class/Reference/Reference.html#//apple_ref/c/data/NSUbiquitousKeyValueStoreDidChangeExternallyNotification"}}{\fldrslt 
+\f1 \cf2 NSUbiquitousKeyValueStoreDidChangeExternallyNotification}} notification during app launch. Then, to ensure your app starts off with the newest available data, obtain the keys and values from iCloud by calling the {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/prerelease/ios/documentation/Foundation/Reference/NSUbiquitousKeyValueStore_class/Reference/Reference.html#//apple_ref/occ/instm/NSUbiquitousKeyValueStore/synchronize"}}{\fldrslt 
+\f1 \cf2 synchronize}} method. (You need never call the 
+\f1 \cf3 synchronize
+\f0 \cf0  method again during your app\'92s life cycle, unless your app design requires fast-as-possible upload to iCloud after you change a value.)\
+The following code snippet shows how to prepare your app to use the iCloud key-value store. Place code like this within your {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/Reference/Reference.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:didFinishLaunchingWithOptions:"}}{\fldrslt 
+\f1 \cf2 application:didFinishLaunchingWithOptions:}} method (iOS) or 
+\f1 \cf3 applicationDidFinishLaunching:
+\f0 \cf0  method (OS X).\
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrt\brdrs\brdrw20\brdrcf5 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+
+\f1\fs24 \cf3 // get the default key-value store object\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3 self.kvstore = [NSUbiquitousKeyValueStore defaultStore];\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3  \
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3 // register to observe notifications from the store\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3 [[NSNotificationCenter defaultCenter]\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3     addObserver: self\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3        selector: @selector (storeDidChange:)\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3            name: NSUbiquitousKeyValueStoreDidChangeExternallyNotification\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3          object: self.kvstore];\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3  \
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3 // get changes that might have happened while this\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3 // instance of your app wasn't running\
+\nestcell \nestrow
+
+\itap2\trowd \taflags1 \trgaph108\trleft-108 \trcbpat4 \trbrdrl\brdrs\brdrw20\brdrcf5 \trbrdrb\brdrs\brdrw20\brdrcf5 \trbrdrr\brdrs\brdrw20\brdrcf5 \tapadb80 
+\clvertalc \clshdrawnil \clwWidth13860\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadt100 \clpadl100 \clpadb100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap2\pardeftab720
+\cf3 [self.kvstore synchronize];\
+\nestcell \lastrow\nestrow
+\pard\intbl\itap1\pardeftab720\sa200
+
+\f0\fs26 \cf0 (This code assumes you\'92ve previously defined the 
+\f1 \cf3 kvstore
+\f0 \cf0  variable as a \cf2 declared property\cf0  of type 
+\f1 \cf3 NSUbiquitousKeyValueStore*
+\f0 \cf0 , with strong setter semantics.)\
+In your handler method for the 
+\f1 \cf3 NSUbiquitousKeyValueStoreDidChangeExternallyNotification
+\f0 \cf0  notification, examine the user info dictionary and determine if you want to write the changes to your app\'92s local \cf2 user defaults\cf0  database. It\'92s important to decide deliberately whether or not to change your app\'92s settings based on iCloud-originated changes, as explained next.\
+\pard\intbl\itap1\pardeftab720\sa400
+
+\fs48 \cf6 Data Size Limits for Key-Value Storage\
+\pard\intbl\itap1\pardeftab720\sa200
+
+\fs26 \cf0 The total space available in your app\'92s iCloud key-value storage is 1 MB per user. The maximum number of keys you can specify is 1024, and the size limit for each value associated with a key is 1 MB. The maximum length for a key string is 64 bytes using UTF8 encoding.\
+So, for example, if you store a single large value of 1 MB for a single key, that fully consumes your quota for a given user of your app. If you store 1 KB of data for each key, you can use 1,000 key-value pairs.\
+Your app\'92s key-value storage does not count against a user\'92s iCloud allotment.\
+If your app has exceeded its quota in key-value storage, the iCloud key-value store posts the {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/prerelease/ios/documentation/Foundation/Reference/NSUbiquitousKeyValueStore_class/Reference/Reference.html#//apple_ref/c/data/NSUbiquitousKeyValueStoreDidChangeExternallyNotification"}}{\fldrslt 
+\f1 \cf2 NSUbiquitousKeyValueStoreDidChangeExternallyNotification}} notification with a value of {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/prerelease/ios/documentation/Foundation/Reference/NSUbiquitousKeyValueStore_class/Reference/Reference.html#//apple_ref/c/econst/NSUbiquitousKeyValueStoreQuotaViolationChange"}}{\fldrslt 
+\f1 \cf2 NSUbiquitousKeyValueStoreQuotaViolationChange}} in its user info dictionary.
+\f1\fs24 \cf3 \cell \lastrow\row
+}

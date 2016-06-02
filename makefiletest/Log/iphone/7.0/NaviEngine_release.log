@@ -1,0 +1,2 @@
+/bin/sh: /Applications/Xcode5.0.app/Contents/Developer/usr/bin/gcc: No such file or directory
+make[1]: *** [Obj/iphone/7.0/simulator/release/MYCLASS/mallocTest.o] Error 127

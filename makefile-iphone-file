@@ -1,0 +1,237 @@
+#############################################################################
+# Makefile create by ÑÞÑôÂúÌì
+#############################################################################
+
+#----------------------------------------------
+# Target File Name And Type Definitions
+#----------------------------------------------
+EXETYPE 	= a
+TARGET		= fGNaviMid
+PROJ_DIR 	= .
+C_ARMV7         = -arch armv7
+C_ARMV7S         = -arch armv7s
+#----------------------------------------------
+# Compile Executable File
+#----------------------------------------------
+ARMCC 		= /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang
+ARMCPP 		= /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
+CC 			= /Applications/Xcode.app/Contents/Developer/usr/bin/gcc
+CPP 			= /Applications/Xcode.app/Contents/Developer/usr/bin/g++
+AR  			= /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/ar
+
+
+#----------------------------------------------
+# Command For Delete File
+#----------------------------------------------
+DEL_CMD 	= rm -rf
+
+#----------------------------------------------
+# Command For Create Directory
+#----------------------------------------------
+DIR_CMD 	= mkdir -p
+
+#----------------------------------------------
+# Generic Flags For Compile
+#----------------------------------------------
+CC_CMD  	= -c -std=c99 -W -Wall -O3 \
+        		-funroll-loops \
+        		-Diphoneos_version_min=2.0 \
+        		-Wno-unused-parameter \
+        		-Wno-sign-compare \
+				-arch armv7
+#----------------------------------------------
+# Command Line Option To Specify Output Filename
+#----------------------------------------------    		
+OUT_CMD 	= -o
+
+#----------------------------------------------
+# Extension For Object File
+#---------------------------------------------- 
+EXT 			= o
+
+## SDK°æ±¾
+SDKVER    = 7.0
+
+## iPhone SDKÂ·¾¶
+IPHONESDK = /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS$(SDKVER).sdk
+
+#----------------------------------------------
+# Output Directory
+#----------------------------------------------
+OUTDIR = Lib/iphone/$(SDKVER)
+INTDIR = Obj/iphone/$(SDKVER)
+LOGDIR = Log/iphone/$(SDKVER)
+
+#----------------------------------------------
+# MACRO
+#----------------------------------------------
+APP_DEF = -DPLATFORM_MAC \
+					-D_DEBUG
+
+#----------------------------------------------
+# Include Directory
+#----------------------------------------------
+APP_INC = -I"$(IPHONESDK)/usr/include/c++/4.2.1/armv6-apple-darwin10/" \
+					-I"$(IPHONESDK)/usr/include" \
+					-I"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/gcc/arm-apple-darwin9/4.2/include/" \
+					-I"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/include/" \
+					-I"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator$(SDKVER).sdk/usr/include"
+
+#----------------------------------------------
+# Compile Flags and AR or Link Flags
+#----------------------------------------------
+CCFLAGS = $(CC_CMD) $(APP_DEF) $(APP_INC)
+ARFLAGS = -r $(OUTDIR)/$(TARGET).$(EXETYPE)
+
+#----------------------------------------------
+# DO NOT EDIT BELOW THIS LINE
+#----------------------------------------------
+	
+ALL: DIR CLEAN Simulator_TARGET Device_TARGET Simulator_TARGET_DEBUG Device_TARGET_DEBUG CLEANIT
+
+DIR:
+	$(DIR_CMD) "$(OUTDIR)/simulator/debug"
+	$(DIR_CMD) "$(INTDIR)/simulator/debug"
+	$(DIR_CMD) "$(OUTDIR)/device/debug"
+	$(DIR_CMD) "$(INTDIR)/device/debug"
+	$(DIR_CMD) "$(OUTDIR)/simulator/release"
+	$(DIR_CMD) "$(INTDIR)/simulator/release"
+	$(DIR_CMD) "$(OUTDIR)/device/release"
+	$(DIR_CMD) "$(INTDIR)/device/release"
+	$(DIR_CMD) "$(LOGDIR)"
+
+CLEAN:
+	@echo -------------------------------------------
+	@echo CLEAN
+	$(DEL_CMD) $(INTDIR)/simulator/debug/GGraphics/*.$(EXT)
+	$(DEL_CMD) $(INTDIR)/simulator/debug/GNaviMid/*.$(EXT)
+	$(DEL_CMD) $(INTDIR)/simulator/debug/NaviEngine/*.$(EXT)
+	$(DEL_CMD) $(INTDIR)/simulator/release/GGraphics/*.$(EXT)
+	$(DEL_CMD) $(INTDIR)/simulator/release/GNaviMid/*.$(EXT)
+	$(DEL_CMD) $(INTDIR)/simulator/release/NaviEngine/*.$(EXT)
+	$(DEL_CMD) $(INTDIR)/device/debug/GGraphics/*.$(EXT)
+	$(DEL_CMD) $(INTDIR)/device/debug/GNaviMid/*.$(EXT)
+	$(DEL_CMD) $(INTDIR)/device/debug/NaviEngine/*.$(EXT)
+	$(DEL_CMD) $(INTDIR)/device/release/GGraphics/*.$(EXT)
+	$(DEL_CMD) $(INTDIR)/device/release/GNaviMid/*.$(EXT)
+	$(DEL_CMD) $(INTDIR)/device/release/NaviEngine/*.$(EXT)
+	$(DEL_CMD) $(LOGDIR)/*.log
+	$(DEL_CMD) $(OUTDIR)/simulator/debug/$(TARGET).$(EXETYPE)
+	$(DEL_CMD) $(OUTDIR)/simulator/release/$(TARGET).$(EXETYPE)
+	$(DEL_CMD) $(OUTDIR)/device/debug/$(TARGET).$(EXETYPE)
+	$(DEL_CMD) $(OUTDIR)/device/release/$(TARGET).$(EXETYPE)
+	@echo -------------------------------------------
+
+CLEANIT:
+	@echo -------------------------------------------
+	@echo CLEAN
+	$(DEL_CMD) $(OUTDIR)/*.$(EXETYPE)
+	@echo -------------------------------------------
+	
+#----------------------------------------------
+# SIMULATOR TARGET
+#----------------------------------------------
+Simulator_TARGET : Module_NaviEngine Module_GNaviMid Module_GGraphics
+	@echo -------------------------------------------
+	@echo $(TARGET)
+	@echo -------------------------------------------
+	$(AR) -r $(OUTDIR)/simulator/release/$(TARGET).$(EXETYPE) $(INTDIR)/simulator/release/NaviEngine/*.o $(INTDIR)/simulator/release/GGraphics/*.o $(INTDIR)/simulator/release/GNaviMid/*.o $(INTDIR)/simulator/release/GNaviMid/libgdgps.obj
+
+Module_NaviEngine: 
+	cd -P NaviEngine
+	$(MAKE) -$(MAKEFLAGS) -f NaviEngine/makefile-iphone "DEBUG=-DNDEBUG" "FILEOP=-DIPHONE_FILE" REBUILD INTDIR=$(INTDIR)/simulator/release/NaviEngine 2> $(LOGDIR)/NaviEngine_release.log
+	cd ..
+
+Module_GGraphics:
+	cd GGraphics
+	$(MAKE) -$(MAKEFLAGS) -f GGraphics/makefile-iphone REBUILD "DEBUG=-DNDEBUG" INTDIR=$(INTDIR)/simulator/release/GGraphics 2> $(LOGDIR)/GGraphics_release.log
+	cd ..
+
+Module_GNaviMid:
+	cd GNaviMid
+	$(MAKE) -$(MAKEFLAGS) -f GNaviMid/makefile-iphone REBUILD "DEBUG=-DNDEBUG" INTDIR=$(INTDIR)/simulator/release/GNaviMid 2> $(LOGDIR)/GNaviMid_release.log
+	cd ..
+	
+Simulator_TARGET_DEBUG : Module_NaviEngine_DEBUG Module_GNaviMid_DEBUG Module_GGraphics_DEBUG
+	@echo -------------------------------------------
+	@echo $(TARGET)
+	@echo -------------------------------------------
+	$(AR) -r $(OUTDIR)/simulator/debug/$(TARGET).$(EXETYPE) $(INTDIR)/simulator/debug/NaviEngine/*.o $(INTDIR)/simulator/debug/GGraphics/*.o $(INTDIR)/simulator/debug/GNaviMid/*.o $(INTDIR)/simulator/debug/GNaviMid/libgdgps.obj
+
+Module_NaviEngine_DEBUG: 
+	cd -P NaviEngine
+	$(MAKE) -$(MAKEFLAGS) -f NaviEngine/makefile-iphone "DEBUG=-D_DEBUG" "FILEOP=-DIPHONE_FILE" REBUILD INTDIR=$(INTDIR)/simulator/debug/NaviEngine 2> $(LOGDIR)/NaviEngine_debug.log
+	cd ..
+
+Module_GGraphics_DEBUG:
+	cd GGraphics
+	$(MAKE) -$(MAKEFLAGS) -f GGraphics/makefile-iphone "DEBUG=-D_DEBUG" REBUILD INTDIR=$(INTDIR)/simulator/debug/GGraphics 2> $(LOGDIR)/GGraphics_debug.log
+	cd ..
+
+Module_GNaviMid_DEBUG:
+	cd GNaviMid
+	$(MAKE) -$(MAKEFLAGS) -f GNaviMid/makefile-iphone "DEBUG=-D_DEBUG" REBUILD INTDIR=$(INTDIR)/simulator/debug/GNaviMid 2> $(LOGDIR)/GNaviMid_debug.log
+	cd ..
+	
+#----------------------------------------------
+# DEVICE TARGET
+#----------------------------------------------
+Device_TARGET : D_Module_NaviEngine D_Module_GNaviMid D_Module_GGraphics
+	@echo -------------------------------------------
+	@echo $(TARGET)
+	@echo -------------------------------------------
+	$(AR) -r $(OUTDIR)/device/release/$(TARGET).$(EXETYPE) $(INTDIR)/device/release/NaviEngine/*.o $(INTDIR)/device/release/GGraphics/*.o $(INTDIR)/device/release/GNaviMid/*.o $(INTDIR)/device/release/GNaviMid/libgdgps.obj
+
+D_Module_NaviEngine: 
+	cd -P NaviEngine
+	$(MAKE) -$(MAKEFLAGS) -f NaviEngine/makefile-iphone "DEBUG=-DNDEBUG" "FILEOP=-DIPHONE_FILE" REBUILD CC=$(ARMCC) CPP=$(ARMCPP) INTDIR=$(INTDIR)/device/release/NaviEngine 2> $(LOGDIR)/NaviEngine_release.log
+	cd ..
+
+D_Module_GGraphics:
+	cd GGraphics
+	$(MAKE) -$(MAKEFLAGS) -f GGraphics/makefile-iphone "DEBUG=-DNDEBUG" REBUILD CC=$(ARMCC) CPP=$(ARMCPP) INTDIR=$(INTDIR)/device/release/GGraphics 2> $(LOGDIR)/GGraphics_release.log
+	cd ..
+
+D_Module_GNaviMid:
+	cd GNaviMid
+	$(MAKE) -$(MAKEFLAGS) -f GNaviMid/makefile-iphone "DEBUG=-DNDEBUG" REBUILD CC=$(ARMCC) CPP=$(ARMCPP) INTDIR=$(INTDIR)/device/release/GNaviMid 2> $(LOGDIR)/GNaviMid_release.log
+	cd ..
+
+Device_TARGET_DEBUG : D_Module_NaviEngine_DEBUG D_Module_GNaviMid_DEBUG D_Module_GGraphics_DEBUG
+	@echo -------------------------------------------
+	@echo $(TARGET)
+	@echo -------------------------------------------
+	$(AR) -r $(OUTDIR)/device/debug/$(TARGET).$(EXETYPE) $(INTDIR)/device/debug/NaviEngine/*.o $(INTDIR)/device/debug/GGraphics/*.o $(INTDIR)/device/debug/GNaviMid/*.o $(INTDIR)/device/debug/GNaviMid/libgdgps.obj
+
+D_Module_NaviEngine_DEBUG: 
+	cd -P NaviEngine
+	$(MAKE) -$(MAKEFLAGS) -f NaviEngine/makefile-iphone "DEBUG=-D_DEBUG" "FILEOP=-DIPHONE_FILE" REBUILD CC=$(ARMCC) CPP=$(ARMCPP) INTDIR=$(INTDIR)/device/debug/NaviEngine 2> $(LOGDIR)/NaviEngine_debug.log
+	cd ..
+
+D_Module_GGraphics_DEBUG:
+	cd GGraphics
+	$(MAKE) -$(MAKEFLAGS) -f GGraphics/makefile-iphone "DEBUG=-D_DEBUG" REBUILD CC=$(ARMCC) CPP=$(ARMCPP) INTDIR=$(INTDIR)/device/debug/GGraphics 2> $(LOGDIR)/GGraphics_debug.log
+	cd ..
+
+D_Module_GNaviMid_DEBUG:
+	cd GNaviMid
+	$(MAKE) -$(MAKEFLAGS) -f GNaviMid/makefile-iphone "DEBUG=-D_DEBUG" REBUILD CC=$(ARMCC) CPP=$(ARMCPP) INTDIR=$(INTDIR)/device/debug/GNaviMid 2> $(LOGDIR)/GNaviMid_debug.log
+	cd ..
+
+######## compile
+
+.SUFFIXES: .cpp .cxx .cc .C .c
+
+.c.o:
+	@echo -------------------------------------------
+	@echo $(<F)
+	@echo -------------------------------------------
+	$(CC) $(CCFLAGS) -o $@ $<
+	
+.cpp.o:
+	@echo -------------------------------------------
+	@echo $(<F)
+	@echo -------------------------------------------
+	$(CC) $(CCFLAGS) -o $@ $<
+	
+######## End Of Makefile

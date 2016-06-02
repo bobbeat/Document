@@ -1,0 +1,26 @@
+#==============================================
+#
+# Makefile create by ÑÞÑôÂúÌì
+# Module : GNaviGPI
+#
+#==============================================
+CCFLAGS_GPI = $(CCFLAGS) \
+					    -I$(PROJ_DIR) \
+
+					
+#================= MakeFileTestClass=================
+SRCDIR_GPI  = $(PROJ_DIR)
+
+$(INTDIR_ARM7)/MakeFileTestClass.$(EXT) : $(SRCDIR_GPI)/MakeFileTestClass.m
+	@echo ------------------------------------------------------------------
+	@echo $(SRCDIR_GPI)/MakeFileTestClass.m arm7
+	@echo ------------------------------------------------------------------
+	$(CC) -arch armv7 $(CCFLAGS_GPI) $(OUT_CMD) $@ $(SRCDIR_GPI)/MakeFileTestClass.m
+
+$(INTDIR_ARM7S)/MakeFileTestClass.$(EXT) : $(SRCDIR_GPI)/MakeFileTestClass.m
+	@echo ------------------------------------------------------------------
+	@echo $(SRCDIR_GPI)/MakeFileTestClass.m arm7s
+	@echo ------------------------------------------------------------------
+	$(CC) -arch armv7s $(CCFLAGS_GPI) $(OUT_CMD) $@ $(SRCDIR_GPI)/MakeFileTestClass.m
+	
+######## End Of Makefile

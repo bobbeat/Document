@@ -1,0 +1,22 @@
+#==============================================
+#
+# Makefile create by ÑÞÑôÂúÌì
+# Module : GNaviGPI
+#
+#==============================================
+
+myclass1 = $(INTDIR)/mallocTest.$(EXT)
+					
+#================= MakeFileTestClass=================
+SRCDIR  = $(PROJ_DIR)/gzm
+
+CCFLAGS_MY = $(CCFLAGS)	\
+				-I$(PROJ_DIR)/gzm
+
+$(INTDIR)/mallocTest.$(EXT) : $(SRCDIR)/mallocTest.m
+	@echo ------------------------------------------------------------------
+	@echo $(INTDIR)/mallocTest.$(EXT)
+	@echo ------------------------------------------------------------------
+	$(CC) $(CCFLAGS_MY) $(OUT_CMD) $@ $(SRCDIR)/mallocTest.m
+	
+######## End Of Makefile

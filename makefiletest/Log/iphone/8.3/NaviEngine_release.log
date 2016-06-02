@@ -1,0 +1,16 @@
+In file included from MYCLASS/gzm/mallocTest.m:9:
+In file included from MYCLASS/gzm/mallocTest.h:9:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.h:6:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/CoreFoundation.framework/Headers/CoreFoundation.h:55:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/CoreFoundation.framework/Headers/CFPropertyList.h:13:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/CoreFoundation.framework/Headers/CFStream.h:15:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/usr/include/dispatch/dispatch.h:48:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/usr/include/os/object.h:27:
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/usr/include/os/base.h:73:9: warning: 'OS_INLINE' macro redefined [-Wmacro-redefined]
+#define OS_INLINE static __inline__
+        ^
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/usr/include/sys/_types/_os_inline.h:30:17: note: previous definition is here
+#        define OS_INLINE static inline
+                ^
+1 warning generated.
+ar: creating archive ./Lib/iphone/8.3/MYCLASS.a
